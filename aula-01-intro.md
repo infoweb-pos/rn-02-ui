@@ -16,8 +16,7 @@
 
 ---
 ## 1. Objetivo da aula
-Nesta aula, vamos introduzir os conceitos básicos da interface do usuário no React Native e mostrar como criar uma tela de perfil usando componentes nativos e classes utilitárias do NativeWind. 
-O foco é entender como a interface é montada a partir de uma árvore de componentes e como o estilo pode ser aplicado de forma rápida e consistente.
+Nesta aula, vamos introduzir os conceitos básicos da interface do usuário no React Native e mostrar como criar uma tela de perfil usando componentes nativos e classes utilitárias do NativeWind. O foco é entender como a interface é montada a partir de uma árvore de componentes e como o estilo pode ser aplicado de forma rápida e consistente.
 
 Ao final da aula, o aluno deve ser capaz de:
 - reconhecer os principais componentes da interface em React Native;
@@ -250,45 +249,53 @@ Tailwind é uma abordagem de estilos baseada em classes utilitárias. Em vez de 
 
 ---
 ### 8. Setup do projeto com Expo + TypeScript + NativeWind
+Quando o projeto utiliza a estrutura de Expo Router com `app/_layout.tsx`, `app/index.tsx` e `global.css`, o Tailwind precisa ser carregado uma única vez no arquivo de layout.
+
 #### Passo 1 — criar o projeto
 ```bash
-npx create-expo-app@latest perfil-app --template default@sdk-58
+npx create-expo-app@latest perfil-app --template blank-typescript
 cd perfil-app
 ```
 
-#### Passo 2 — instalar o NativeWind
+#### Passo 2 — instalar o NativeWind e o Tailwind
 ```bash
 npm install nativewind
-npm install -D tailwindcss
+npm install -D tailwindcss @tailwindcss/postcss
 ```
 
-#### Passo 3 — configurar o NativeWind
-No arquivo `babel.config.js`:
-```js
-module.exports = function (api) {
-  api.cache(true);
-  return {
-    presets: ['babel-preset-expo'],
-    plugins: ['nativewind/babel'],
-  };
-};
-
+#### Passo 3 — criar o arquivo `global.css`
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 ```
 
-No arquivo `tailwind.config.js`:
-```js
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ['./App.tsx', './app/**/*.{js,ts,jsx,tsx}'],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-};
+#### Passo 4 — importar o CSS no layout
+Arquivo: `app/_layout.tsx`
+```tsx
+import { Stack } from 'expo-router';
+import '../global.css';
 
+export default function RootLayout() {
+  return <Stack screenOptions={{ headerShown: false }} />;
+}
 ```
 
-> Em projetos Expo mais recentes, a configuração pode variar ligeiramente, mas a ideia central é a mesma: incluir o NativeWind no processo de compilação e permitir o uso de `className`.
+#### Passo 5 — usar classes no componente da tela
+Arquivo: `app/index.tsx`
+```tsx
+import { Image, Pressable, ScrollView, Text, View } from 'react-native';
+
+export default function HomeScreen() {
+  return (
+    <View className="flex-1 bg-slate-100">
+      <Text className="text-2xl font-bold text-slate-900">Perfil</Text>
+    </View>
+  );
+}
+```
+
+> Importante: o `global.css` deve ser importado no arquivo de layout, e não dentro de cada tela. Se isso não for feito, o Tailwind não será aplicado, mesmo que as classes estejam corretas nos componentes.
 
 ---
 ## 9. Hands-on do professor: criar uma tela de perfil
@@ -302,23 +309,20 @@ Vamos construir uma tela de perfil com:
 
 ### Estrutura da tela
 ```text
-App
-└── View (container principal)
-    ├── View (capa / card principal)
-    │   ├── Image (avatar)
-    │   ├── Text (nome)
-    │   ├── Text (profissão)
-    │   ├── View (status)
-    │   └── Pressable (botão)
-    └── View (lista de detalhes)
+app/
+├── _layout.tsx
+├── global.css
+└── index.tsx
 ```
 
+A tela será renderizada dentro de `app/index.tsx` e as classes utilitárias serão carregadas mediante o `global.css` importado em `_layout.tsx`.
+
 ### Código completo do exemplo
+Arquivo: `app/index.tsx`
 ```tsx
-import React from 'react';
 import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 
-export default function App() {
+export default function HomeScreen() {
   return (
     <View className="flex-1 bg-slate-100">
       <ScrollView contentContainerStyle={{ paddingBottom: 32 }}>
@@ -401,7 +405,23 @@ export default function App() {
     </View>
   );
 }
+```
 
+### Arquivo global CSS
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+### Layout principal
+```tsx
+import { Stack } from 'expo-router';
+import '../global.css';
+
+export default function RootLayout() {
+  return <Stack screenOptions={{ headerShown: false }} />;
+}
 ```
 
 ### Discussão da implementação
@@ -410,16 +430,18 @@ export default function App() {
 - `Text` mostra nome, profissão e textos de apoio.
 - `Pressable` cria o botão de ação.
 - `className` concentra a estilização sem escrever estilos inline complexos.
+- `global.css` é carregado em `_layout.tsx`, o que permite que as classes do Tailwind funcionem na aplicação inteira.
 
 ---
 ## 10. Como explicar a arquitetura da tela para os alunos
 Ao apresentar a tela, o professor pode dizer:
-1. `App` é o componente raiz.
-2. Um `ScrollView` permite que o conteúdo exceda a altura da tela.
-3. O primeiro bloco de `View` cria a área superior azul, que funciona como um cabeçalho.
-4. O cartão central é um container que recebe o avatar, nome e estatísticas.
-5. O botão `Pressable` adiciona interação.
-6. As classes do Tailwind como `bg-indigo-600`, `rounded-2xl` e `text-slate-900` tornam o layout mais visual e organizado.
+1. `app/_layout.tsx` é o ponto de entrada da aplicação e importa o `global.css`.
+2. `app/index.tsx` é a tela principal exibida pelo roteador.
+3. Um `ScrollView` permite que o conteúdo exceda a altura da tela.
+4. O primeiro bloco de `View` cria a área superior azul, que funciona como um cabeçalho.
+5. O cartão central é um container que recebe o avatar, nome e estatísticas.
+6. O botão `Pressable` adiciona interação.
+7. As classes do Tailwind como `bg-indigo-600`, `rounded-2xl` e `text-slate-900` tornam o layout mais visual e organizado.
 
 ---
 ## 11. A importância de `className` em NativeWind
@@ -445,6 +467,7 @@ Isso torna o código mais próximo do padrão web e mais rápido de escrever e m
 - Comece mostrando uma simples tela com `View` e `Text`.
 - Em seguida, introduza `Image` e explique como carregar uma imagem externa.
 - Depois, mostre `Pressable` e explique a ideia de ação e interação.
+- Explique a diferença entre um projeto com `App.tsx` e um projeto com Expo Router com `app/_layout.tsx`.
 - Finalize com a comparação entre CSS tradicional e NativeWind.
 - A partir disso, apresente o exemplo final da tela de perfil.
 
@@ -453,6 +476,7 @@ Isso torna o código mais próximo do padrão web e mais rápido de escrever e m
 - Como a árvore de componentes influencia o layout?
 - Por que `View` é tão importante em React Native?
 - Qual a diferença entre escrever estilos com `style` e com `className`?
+- Qual a função do `global.css` no ambiente do Expo Router?
 
 ---
 ## 13. Desafio para os alunos (30 min)
@@ -463,18 +487,22 @@ Crie uma segunda tela simples de perfil com os seguintes requisitos:
 - 3 cards com informações;
 - botão "Seguir" ou "Enviar mensagem";
 - pelo menos um item com `Pressable`;
-- uso de classes utilitárias do NativeWind.
+- uso de classes utilitárias do NativeWind;
+- organização compatível com a estrutura `app/_layout.tsx` + `app/index.tsx`.
 
 ### Critérios de avaliação
 - estrutura clara de componentes;
 - uso correto de `View`, `Text`, `Image` e `Pressable`;
 - uso de classes utilitárias para estilos;
 - organização visual e legibilidade;
-- botão com interação.
+- botão com interação;
+- integração correta com o `global.css` e router do Expo.
 
 ---
 ## 14. Encerramento
 Nesta aula, os alunos conhecem os blocos básicos para construir interfaces em React Native e aprendem a pensar em termos de árvore de componentes. Além disso, entendem como o NativeWind facilita o trabalho com estilos utilizando classes utilitárias, mantendo o código mais legível e produtivo.
+
+Também aprendemos que, em projetos com Expo Router, o Tailwind precisa ser carregado por meio do arquivo `global.css` e do `app/_layout.tsx`, para que as classes `className` funcionem corretamente.
 
 O próximo passo será avançar para layouts mais complexos, navegação e componentes reutilizáveis.
 
@@ -487,6 +515,7 @@ O próximo passo será avançar para layouts mais complexos, navegação e compo
 - CSS e NativeWind têm objetivos semelhantes, mas diferentes ambientes
 - Tailwind no React Native é escrito com `className`
 - NativeWind melhora produtividade e legibilidade
+- em Expo Router, `global.css` e `app/_layout.tsx` são essenciais para o carregamento do Tailwind
 
 ---
 ## 16. Referências rápidas
@@ -494,6 +523,7 @@ O próximo passo será avançar para layouts mais complexos, navegação e compo
 - React Native: https://reactnative.dev/
 - NativeWind: https://www.nativewind.dev/
 - Tailwind CSS: https://tailwindcss.com/
+- Expo Router: https://docs.expo.dev/router/introduction/
 
 ---
 ## 17. Mini checklist do professor
@@ -507,5 +537,6 @@ Antes de iniciar a aula, confirme se os alunos conseguem responder:
 - [ ] O que é `Pressable`?
 - [ ] Qual a diferença entre CSS e NativeWind?
 - [ ] Como aplicar classes Tailwind no React Native?
+- [ ] Por que o `global.css` e o `_layout.tsx` são importantes em projetos com Expo Router?
 
 Se todas as respostas forem compreendidas, a aula está pronta para avançar para o desafio prático.
