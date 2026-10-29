@@ -1,7 +1,6 @@
-# Aula 01 - Introdução ao React Native e UI com NativeWind
+# Notas de Aula 01 - Interface do Usuário - React Native
 
 ## Informações gerais
-
 - Duração: 60 min de exposição + 30 min de desafio
 - Stack do projeto: Expo + TypeScript + NativeWind
 - Competências:
@@ -16,24 +15,19 @@
   - Classes Tailwind no React Native
 
 ---
-
 ## 1. Objetivo da aula
-
-Nesta aula, vamos introduzir os conceitos básicos da interface do usuário no React Native e mostrar como criar uma tela de perfil usando componentes nativos e classes utilitárias do NativeWind. O foco é entender como a interface é montada a partir de uma árvore de componentes e como o estilo pode ser aplicado de forma rápida e consistente.
+Nesta aula, vamos introduzir os conceitos básicos da interface do usuário no React Native e mostrar como criar uma tela de perfil usando componentes nativos e classes utilitárias do NativeWind. 
+O foco é entender como a interface é montada a partir de uma árvore de componentes e como o estilo pode ser aplicado de forma rápida e consistente.
 
 Ao final da aula, o aluno deve ser capaz de:
-
 - reconhecer os principais componentes da interface em React Native;
 - compreender a hierarquia de componentes em uma tela;
 - utilizar classes utilitárias para criar layouts e estilos;
 - criar uma tela simples de perfil com Expo + TypeScript + NativeWind.
 
 ---
-
 ## 2. Cronograma sugerido
-
 ### Parte 1 — Exposição (60 min)
-
 1. Introdução ao React Native e ao Expo (10 min)
 2. Árvore de componentes e renderização (15 min)
 3. View, Text, Image e Pressable (15 min)
@@ -41,7 +35,6 @@ Ao final da aula, o aluno deve ser capaz de:
 5. Classes Tailwind no React Native (10 min)
 
 ### Parte 2 — Desafio (30 min)
-
 - Criar uma tela de perfil com:
   - avatar;
   - nome;
@@ -51,15 +44,13 @@ Ao final da aula, o aluno deve ser capaz de:
   - cards de estatísticas ou detalhes.
 
 ---
-
-## 3. O que é React Native?
-
+## Parte 1 — Exposição (60 min)
+### 3. Relembrando o que é React Native?
 React Native é uma biblioteca para construir interfaces móveis com JavaScript/TypeScript, usando componentes que representam elementos visuais nativos do sistema operacional.
 
 Em vez de escrever HTML e CSS para a web, escrevemos componentes como `View`, `Text`, `Image` e `Pressable`, que são convertidos em elementos nativos da plataforma.
 
-### Exemplo rápido
-
+#### Exemplo rápido
 ```tsx
 import { View, Text } from 'react-native';
 
@@ -73,19 +64,17 @@ export default function App() {
 ```
 
 Neste exemplo:
-
 - `View` representa um container;
 - `Text` renderiza texto;
 - `className` aplica estilos utilitários vindos do NativeWind.
 
 ---
+### 4. Árvore de componentes
+Uma interface em React Native é montada como uma árvore de componentes (jsx ou tsx).
+A árvore começa com um componente principal e vai aninhando outros componentes dentro dele.
+Semelhante a árvore DOM (Document Object Model) para as interfaces no navegador com HTML.
 
-## 4. Árvore de componentes
-
-Uma interface em React Native é montada como uma árvore de componentes. A árvore começa com um componente principal e vai aninhando outros componentes dentro dele.
-
-### Exemplo de árvore
-
+#### Exemplo de árvore
 ```tsx
 <View>
   <View>
@@ -100,7 +89,6 @@ Uma interface em React Native é montada como uma árvore de componentes. A árv
 ```
 
 Essa estrutura pode ser vista como:
-
 ```text
 App
 └── View (container principal)
@@ -111,22 +99,19 @@ App
         └── Text (label do botão)
 ```
 
-### Por que isso importa?
-
-Porque o layout e a lógica funcional se organizam melhor quando entendemos a hierarquia. Cada componente tem uma responsabilidade:
-
+#### Por que isso importa?
+Porque o layout e a lógica funcional se organizam melhor quando entendemos a hierarquia.
+Cada componente tem uma responsabilidade:
 - `View`: organiza e containeriza outros elementos;
 - `Text`: exibe textos;
 - `Image`: carrega imagens;
 - `Pressable`: permite interação (clique, toque, ação).
 
 ---
-
-## 5. Componentes básicos
-
-### 5.1 `View`
-
-`View` é o bloco de construção principal da interface. Ele pode agir como `div` em React web, mas em React Native ele é o container mais usado.
+### 5. Componentes básicos
+#### 5.1 `View`
+`View` é o bloco de construção principal da interface.
+Ele pode agir como `div` em React web, mas em React Native ele é o container mais usado.
 
 ```tsx
 import { View } from 'react-native';
@@ -136,9 +121,9 @@ export default function Card() {
 }
 ```
 
-### 5.2 `Text`
-
-`Text` é usado para exibir texto. Ele deve conter toda a escrita da tela.
+#### 5.2 `Text`
+`Text` é usado para exibir texto.
+Ele deve conter toda a escrita da tela.
 
 ```tsx
 import { Text } from 'react-native';
@@ -148,9 +133,9 @@ export default function Nome() {
 }
 ```
 
-### 5.3 `Image`
-
-`Image` exibe imagens locais ou remotas. Ele pode receber uma URL ou uma imagem local.
+#### 5.3 `Image`
+`Image` exibe imagens locais ou remotas.
+Ele pode receber uma URL ou uma imagem local.
 
 ```tsx
 import { Image } from 'react-native';
@@ -165,9 +150,9 @@ export default function Avatar() {
 }
 ```
 
-### 5.4 `Pressable`
-
-`Pressable` é o componente de interação. Ele envolve áreas clicáveis e pode disparar eventos como `onPress`.
+#### 5.4 `Pressable`
+`Pressable` é o componente de interação.
+Ele envolve áreas clicáveis e pode disparar eventos como `onPress`.
 
 ```tsx
 import { Pressable, Text } from 'react-native';
@@ -185,13 +170,9 @@ export default function Botao() {
 ```
 
 ---
-
-## 6. Diferenças entre CSS e NativeWind
-
-### CSS (web)
-
+### 6. Diferenças entre CSS e NativeWind
+#### CSS (web)
 No desenvolvimento web, normalmente escrevemos CSS em arquivos separados ou em blocos embutidos, por exemplo:
-
 ```css
 .card {
   background: #fff;
@@ -201,51 +182,42 @@ No desenvolvimento web, normalmente escrevemos CSS em arquivos separados ou em b
 ```
 
 Vantagens:
-
 - enorme compatibilidade com a web;
 - suporte a pseudo-classes como `:hover`, `:focus`;
 - linguagem rica e tradicional da estilização web.
 
 Desvantagens:
-
 - não é diretamente aplicável ao React Native;
 - depende de um browser e de regras do CSS da web;
 - muitos conceitos do CSS não existem da mesma forma no ambiente mobile.
 
-### NativeWind
-
+#### NativeWind
 NativeWind permite usar classes utilitárias, como as do Tailwind, em componentes React Native.
 
 Exemplo:
-
 ```tsx
 <View className="bg-white p-4 rounded-xl shadow-sm" />
 ```
 
 Em vez de escrever:
-
 ```tsx
 <View style={{ backgroundColor: '#fff', borderRadius: 12, padding: 16 }} />
 ```
 
 o NativeWind transforma essas classes em estilos nativos. Isso deixa o código mais rápido, legível e consistente com a ideia do Tailwind.
 
-### Principais diferenças
-
-| Conceito | CSS Web | NativeWind / React Native |
-|---|---|---|
+#### Principais diferenças
+| Conceito  | CSS Web                  | NativeWind / React Native |
+|-----------|--------------------------|---------------------------|
 | Seletores | `:hover`, `:focus`, etc. | Menos seletividade; foco em componentes e estados |
-| Unidade | px, rem, %, vw, vh | px e proporções para dimensões; layout responsivo |
-| Layout | Fluxo da web | Flexbox com comportamento mobile |
-| Sintaxe | `class` ou arquivo CSS | `className` em componentes React Native |
-| Cascata | CSS cascata e herança | Sem cascata como na web; composição por componentes |
+| Unidade   | px, rem, %, vw, vh       | px e proporções para dimensões; layout responsivo |
+| Layout    | Fluxo da web             | Flexbox com comportamento mobile |
+| Sintaxe   | `class` ou arquivo CSS   | `className` em componentes React Native |
+| Cascata   | CSS cascata e herança    | Sem cascata como na web; composição por componentes |
 
 ---
-
-## 7. Classes Tailwind no React Native
-
+### 7. Classes Tailwind no React Native
 Tailwind é uma abordagem de estilos baseada em classes utilitárias. Em vez de escrever CSS manualmente, você combina classes como:
-
 - `flex`
 - `items-center`
 - `justify-between`
@@ -255,16 +227,14 @@ Tailwind é uma abordagem de estilos baseada em classes utilitárias. Em vez de 
 - `rounded-xl`
 - `p-4`
 
-### Exemplos comuns
-
+#### Exemplos comuns
 ```tsx
 <View className="flex-1 bg-slate-100 p-6">
   <Text className="text-2xl font-bold text-slate-900">Perfil</Text>
 </View>
 ```
 
-### O que essas classes fazem?
-
+#### O que essas classes fazem?
 - `flex-1`: ocupa o espaço disponível;
 - `bg-slate-100`: define a cor de fundo;
 - `p-6`: padding;
@@ -273,34 +243,27 @@ Tailwind é uma abordagem de estilos baseada em classes utilitárias. Em vez de 
 - `text-slate-900`: cor do texto;
 - `rounded-xl`: bordas arredondadas.
 
-### Observações importantes
-
+#### Observações importantes
 - Classes Tailwind no React Native funcionam através do NativeWind.
 - Nem todas as classes do CSS web existem exatamente do mesmo jeito no React Native.
 - O uso de `className` é uma conveniência para escrever estilos em formato utilitário.
 
 ---
-
-## 8. Setup do projeto com Expo + TypeScript + NativeWind
-
-### Passo 1 — criar o projeto
-
+### 8. Setup do projeto com Expo + TypeScript + NativeWind
+#### Passo 1 — criar o projeto
 ```bash
-npx create-expo-app perfil-app --template blank-typescript
+npx create-expo-app@latest perfil-app --template default@sdk-58
 cd perfil-app
 ```
 
-### Passo 2 — instalar o NativeWind
-
+#### Passo 2 — instalar o NativeWind
 ```bash
 npm install nativewind
 npm install -D tailwindcss
 ```
 
-### Passo 3 — configurar o NativeWind
-
+#### Passo 3 — configurar o NativeWind
 No arquivo `babel.config.js`:
-
 ```js
 module.exports = function (api) {
   api.cache(true);
@@ -309,10 +272,10 @@ module.exports = function (api) {
     plugins: ['nativewind/babel'],
   };
 };
+
 ```
 
 No arquivo `tailwind.config.js`:
-
 ```js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -322,16 +285,14 @@ module.exports = {
   },
   plugins: [],
 };
+
 ```
 
 > Em projetos Expo mais recentes, a configuração pode variar ligeiramente, mas a ideia central é a mesma: incluir o NativeWind no processo de compilação e permitir o uso de `className`.
 
 ---
-
 ## 9. Hands-on do professor: criar uma tela de perfil
-
 Vamos construir uma tela de perfil com:
-
 - fundo claro;
 - cabeçalho com avatar;
 - nome e profissão;
@@ -340,7 +301,6 @@ Vamos construir uma tela de perfil com:
 - lista de informações pessoais.
 
 ### Estrutura da tela
-
 ```text
 App
 └── View (container principal)
@@ -354,7 +314,6 @@ App
 ```
 
 ### Código completo do exemplo
-
 ```tsx
 import React from 'react';
 import { Image, Pressable, ScrollView, Text, View } from 'react-native';
@@ -442,10 +401,10 @@ export default function App() {
     </View>
   );
 }
+
 ```
 
 ### Discussão da implementação
-
 - `View` organiza o layout geral.
 - `Image` exibe o avatar do perfil.
 - `Text` mostra nome, profissão e textos de apoio.
@@ -453,11 +412,8 @@ export default function App() {
 - `className` concentra a estilização sem escrever estilos inline complexos.
 
 ---
-
 ## 10. Como explicar a arquitetura da tela para os alunos
-
 Ao apresentar a tela, o professor pode dizer:
-
 1. `App` é o componente raiz.
 2. Um `ScrollView` permite que o conteúdo exceda a altura da tela.
 3. O primeiro bloco de `View` cria a área superior azul, que funciona como um cabeçalho.
@@ -466,9 +422,7 @@ Ao apresentar a tela, o professor pode dizer:
 6. As classes do Tailwind como `bg-indigo-600`, `rounded-2xl` e `text-slate-900` tornam o layout mais visual e organizado.
 
 ---
-
 ## 11. A importância de `className` em NativeWind
-
 Em React Native puro, normalmente usamos `style` com objetos JavaScript. Isso funciona, mas pode ficar repetitivo e pouco legível.
 
 Exemplo puro:
@@ -486,11 +440,8 @@ Com NativeWind:
 Isso torna o código mais próximo do padrão web e mais rápido de escrever e manter.
 
 ---
-
 ## 12. Dicas de didática para a aula
-
 ### Sugestão de abordagem para o professor
-
 - Comece mostrando uma simples tela com `View` e `Text`.
 - Em seguida, introduza `Image` e explique como carregar uma imagem externa.
 - Depois, mostre `Pressable` e explique a ideia de ação e interação.
@@ -498,18 +449,14 @@ Isso torna o código mais próximo do padrão web e mais rápido de escrever e m
 - A partir disso, apresente o exemplo final da tela de perfil.
 
 ### Perguntas orientadoras
-
 - O que acontece se removermos um componente pai?
 - Como a árvore de componentes influencia o layout?
 - Por que `View` é tão importante em React Native?
 - Qual a diferença entre escrever estilos com `style` e com `className`?
 
 ---
-
 ## 13. Desafio para os alunos (30 min)
-
 Crie uma segunda tela simples de perfil com os seguintes requisitos:
-
 - avatar grande;
 - nome e profissão;
 - descrição curta;
@@ -519,7 +466,6 @@ Crie uma segunda tela simples de perfil com os seguintes requisitos:
 - uso de classes utilitárias do NativeWind.
 
 ### Critérios de avaliação
-
 - estrutura clara de componentes;
 - uso correto de `View`, `Text`, `Image` e `Pressable`;
 - uso de classes utilitárias para estilos;
@@ -527,17 +473,13 @@ Crie uma segunda tela simples de perfil com os seguintes requisitos:
 - botão com interação.
 
 ---
-
 ## 14. Encerramento
-
 Nesta aula, os alunos conhecem os blocos básicos para construir interfaces em React Native e aprendem a pensar em termos de árvore de componentes. Além disso, entendem como o NativeWind facilita o trabalho com estilos utilizando classes utilitárias, mantendo o código mais legível e produtivo.
 
 O próximo passo será avançar para layouts mais complexos, navegação e componentes reutilizáveis.
 
 ---
-
 ## 15. Resumo rápido
-
 - `View`: container
 - `Text`: texto
 - `Image`: imagem
@@ -547,16 +489,13 @@ O próximo passo será avançar para layouts mais complexos, navegação e compo
 - NativeWind melhora produtividade e legibilidade
 
 ---
-
 ## 16. Referências rápidas
-
 - Expo: https://expo.dev/
 - React Native: https://reactnative.dev/
 - NativeWind: https://www.nativewind.dev/
 - Tailwind CSS: https://tailwindcss.com/
 
 ---
-
 ## 17. Mini checklist do professor
 
 Antes de iniciar a aula, confirme se os alunos conseguem responder:
